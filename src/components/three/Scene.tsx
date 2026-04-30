@@ -10,6 +10,7 @@ import DataNebula from './DataNebula';
 import CrystalLattice from './CrystalLattice';
 import AmbientStars from './AmbientStars';
 import AboutScene from './AboutScene';
+import SolutionsScene from './SolutionsScene';
 
 interface Props {
   theme: 'dark' | 'light';
@@ -142,7 +143,7 @@ function HomeMorph({ theme }: { theme: 'dark' | 'light' }) {
 function PageScene({ pathname, theme }: { pathname: string; theme: 'dark' | 'light' }) {
   if (pathname === '/')          return <HomeMorph theme={theme} />;
   if (pathname === '/about')     return <AboutScene theme={theme} />;
-  if (pathname === '/solutions')  return <CrystalLattice theme={theme} visibility={1} />;
+  if (pathname === '/solutions')  return <SolutionsScene theme={theme} />;
   if (pathname === '/insights')   return <DataNebula   theme={theme} visibility={1} />;
   if (pathname === '/contact')    return <CapitalGlobe theme={theme} visibility={1} />;
   return <NeuralCore theme={theme} visibility={1} />;
@@ -164,7 +165,7 @@ export default function Scene({ theme, pathname }: Props) {
         <Suspense fallback={null}>
           <Lights theme={theme} />
           <AmbientStars theme={theme} count={700} />
-          {(pathname === '/' || pathname === '/about') && <CameraDrift />}
+          {(pathname === '/' || pathname === '/about' || pathname === '/solutions') && <CameraDrift />}
           <PageScene pathname={pathname} theme={theme} />
         </Suspense>
       </Canvas>
