@@ -11,6 +11,7 @@ import CrystalLattice from './CrystalLattice';
 import AmbientStars from './AmbientStars';
 import AboutScene from './AboutScene';
 import SolutionsScene from './SolutionsScene';
+import ContactScene from './ContactScene';
 
 interface Props {
   theme: 'dark' | 'light';
@@ -145,7 +146,7 @@ function PageScene({ pathname, theme }: { pathname: string; theme: 'dark' | 'lig
   if (pathname === '/about')     return <AboutScene theme={theme} />;
   if (pathname === '/solutions')  return <SolutionsScene theme={theme} />;
   if (pathname === '/insights')   return <DataNebula   theme={theme} visibility={1} />;
-  if (pathname === '/contact')    return <CapitalGlobe theme={theme} visibility={1} />;
+  if (pathname === '/contact')    return <ContactScene theme={theme} />;
   return <NeuralCore theme={theme} visibility={1} />;
 }
 

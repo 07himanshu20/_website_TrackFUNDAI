@@ -295,20 +295,23 @@ export default function AboutPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════
-          02 / PRINCIPLES — Globe still centered, cards reveal
+          02 / PRINCIPLES — Globe still centered, dimmed behind
       ════════════════════════════════════════════════════ */}
-      <section className="section" style={{ position: 'relative', overflow: 'hidden' }}>
+      <section className="section section-principles" style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Cinematic dimming veil — sits between the fixed 3D canvas and content */}
+        <div className="principles-veil" aria-hidden="true" />
+
         {/* Cinematic light — warm bloom bottom left */}
         <div className="cinematic-light" style={{
           width: 500, height: 500,
           bottom: '5%', left: -100,
-          background: 'radial-gradient(circle, rgba(251,191,119,0.10) 0%, transparent 65%)',
+          background: 'radial-gradient(circle, rgba(228,76,58,0.12) 0%, transparent 65%)',
         }} />
-        {/* Cinematic light — pink bloom top right */}
+        {/* Cinematic light — magenta bloom top right */}
         <div className="cinematic-light" style={{
           width: 450, height: 450,
           top: '0%', right: -80,
-          background: 'radial-gradient(circle, rgba(240,171,252,0.10) 0%, transparent 65%)',
+          background: 'radial-gradient(circle, rgba(194,65,147,0.12) 0%, transparent 65%)',
         }} />
 
         <div className="container-x" style={{ position: 'relative', zIndex: 1 }}>
@@ -320,10 +323,10 @@ export default function AboutPage() {
           <div className="row mb-5">
             <div className="col-12 col-lg-7 reveal">
               <span className="eyebrow d-inline-flex">Our principles</span>
-              <h2 className="display-section mt-3">
+              <h2 className="display-section mt-3" style={{ fontWeight: 700, textShadow: '0 2px 24px rgba(0,0,0,0.55)' }}>
                 What drives <span className="gradient-text">us.</span>
               </h2>
-              <p className="mt-4 text-muted-strong" style={{ fontSize: '1.02rem', lineHeight: 1.65, maxWidth: '540px' }}>
+              <p className="mt-4" style={{ fontSize: '1.05rem', lineHeight: 1.65, maxWidth: '540px', color: 'var(--fg-strong)', fontWeight: 500, textShadow: '0 1px 12px rgba(0,0,0,0.5)' }}>
                 Four principles that shape every line of code and every product decision we make.
               </p>
             </div>
@@ -332,40 +335,40 @@ export default function AboutPage() {
           <div className="row g-4">
             {VALUES.map((v, i) => (
               <div className="col-12 col-md-6 reveal" data-delay={i * 80} key={v.title}>
-                <div className="module-card h-100" style={{ position: 'relative', overflow: 'hidden' }}>
+                <div className="module-card principles-card h-100" style={{ position: 'relative', overflow: 'hidden' }}>
                   {/* Cinematic inner glow per card */}
                   <div style={{
                     position: 'absolute',
                     top: -40, right: -40,
-                    width: 200, height: 200,
+                    width: 220, height: 220,
                     borderRadius: '50%',
                     background: `radial-gradient(circle, ${
-                      i % 4 === 0 ? 'rgba(167,139,250,0.12)' :
-                      i % 4 === 1 ? 'rgba(240,171,252,0.10)' :
-                      i % 4 === 2 ? 'rgba(251,191,119,0.10)' :
-                                    'rgba(167,139,250,0.12)'
+                      i % 4 === 0 ? 'rgba(228,76,58,0.18)' :
+                      i % 4 === 1 ? 'rgba(194,65,147,0.16)' :
+                      i % 4 === 2 ? 'rgba(190,61,146,0.16)' :
+                                    'rgba(107,75,161,0.18)'
                     } 0%, transparent 70%)`,
                     pointerEvents: 'none',
                   }} />
                   <div style={{ position: 'relative', zIndex: 1 }}>
                     <div className="d-flex align-items-center gap-3 mb-4">
                       <span className="section-number">0{i + 1}</span>
-                      <span style={{ flex: 1, height: 1, background: 'var(--glass-border)' }} />
+                      <span style={{ flex: 1, height: 1, background: 'var(--glass-border-strong)' }} />
                     </div>
-                    <h3 style={{ fontSize: '1.5rem', fontWeight: 500, letterSpacing: '-0.02em' }}>
+                    <h3 style={{ fontSize: '1.55rem', fontWeight: 700, letterSpacing: '-0.025em', color: 'var(--fg-strong)' }}>
                       {v.title}
                     </h3>
-                    <p className="mt-3 text-muted-strong" style={{ fontSize: '0.96rem', lineHeight: 1.6 }}>
+                    <p className="mt-3" style={{ fontSize: '0.98rem', lineHeight: 1.65, color: 'var(--fg-strong)', fontWeight: 500 }}>
                       {v.desc}
                     </p>
-                    <ul className="list-unstyled mt-4 pt-3 d-flex flex-column gap-2" style={{ borderTop: '1px solid var(--glass-border)' }}>
+                    <ul className="list-unstyled mt-4 pt-3 d-flex flex-column gap-2" style={{ borderTop: '1px solid var(--glass-border-strong)' }}>
                       {v.bullets.map((b) => (
                         <li
                           key={b}
                           className="d-flex gap-2 align-items-start"
-                          style={{ fontSize: '0.88rem', color: 'var(--muted-strong)', lineHeight: 1.5 }}
+                          style={{ fontSize: '0.9rem', color: 'var(--fg)', lineHeight: 1.55, fontWeight: 500 }}
                         >
-                          <span style={{ width: 4, height: 4, borderRadius: 999, background: 'var(--accent)', marginTop: 8, flexShrink: 0 }} />
+                          <span style={{ width: 5, height: 5, borderRadius: 999, background: 'var(--accent)', marginTop: 7, flexShrink: 0 }} />
                           {b}
                         </li>
                       ))}

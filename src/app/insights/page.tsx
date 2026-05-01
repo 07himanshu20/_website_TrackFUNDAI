@@ -211,11 +211,11 @@ export default function InsightsPage() {
       <section className="section">
         <div className="container-x">
           <div className="reveal mx-auto" style={{ maxWidth: '720px' }}>
-            <div className="glass-strong p-4 p-md-5 text-center">
+            <div className="glass-strong insights-newsletter-card p-4 p-md-5 text-center">
               <h2 className="display-section">
                 Stay <span className="gradient-text">informed.</span>
               </h2>
-              <p className="mt-3 text-muted-strong" style={{ fontSize: '1rem', lineHeight: 1.55 }}>
+              <p className="mt-3" style={{ fontSize: '1rem', lineHeight: 1.55, color: '#ffffff', fontWeight: 700 }}>
                 Get the latest on AIF regulations, fund technology, and platform updates. No spam — just insights that matter.
               </p>
               <form

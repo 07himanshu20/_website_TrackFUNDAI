@@ -14,7 +14,7 @@ interface Props {
  * At scroll=0  → positioned far right (+6 X) and slightly behind
  * At scroll≈0.35 → rolls to center (0, 0, 0), glowing at full intensity
  * Stays centered through the rest of the mission/principles sections.
- * Fades out as the timeline section begins (~scroll 0.52+).
+ * Fades out as the timeline section begins (~scroll 0.44+) — earlier to hand off to EnergyField.
  */
 export default function AboutGlobe({ theme }: Props) {
   const groupRef  = useRef<THREE.Group>(null);
@@ -93,9 +93,10 @@ export default function AboutGlobe({ theme }: Props) {
 
     // Target X: start far right (6.5), arrive at 0 by sp=0.28
     const targetX = 6.5 * (1 - ss(0.0, 0.28, sp));
-    // Opacity: fade in as globe enters, fade out as timeline starts
+    // Opacity: fade in as globe enters, fade out as timeline section starts
+    // Shifted earlier so globe dissolves right as EnergyField begins
     const fadeIn  = ss(0.0, 0.12, sp);
-    const fadeOut = 1 - ss(0.50, 0.62, sp);
+    const fadeOut = 1 - ss(0.44, 0.56, sp);
     const targetOpacity = fadeIn * fadeOut;
 
     // Lerp smoothly

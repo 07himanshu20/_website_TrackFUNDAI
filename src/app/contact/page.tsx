@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import useReveal from '@/components/useReveal';
 
 const FAQ = [
@@ -31,20 +30,6 @@ const CONTACT = [
 export default function ContactPage() {
   useReveal();
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    organization: '',
-    fundType: '',
-    message: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
   return (
     <>
       {/* ───────── HERO ───────── */}
@@ -68,116 +53,108 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* ───────── CINEMATIC SPACER — nebula dissolve zone ───────── */}
+      <section className="contact-nebula-spacer">
+        <div className="contact-nebula-inner">
+          <div className="reveal contact-nebula-label">
+            <span className="eyebrow" style={{ letterSpacing: '0.18em' }}>Connecting you to the cosmos</span>
+          </div>
+        </div>
+      </section>
+
       {/* ───────── FORM + INFO ───────── */}
-      <section className="section">
+      <section className="section contact-form-section">
         <div className="container-x">
           <div className="row g-5">
             {/* Form */}
             <div className="col-12 col-lg-7 reveal">
-              {submitted ? (
-                <div className="glass-strong p-4 p-md-5 text-center">
-                  <div
-                    className="d-inline-flex align-items-center justify-content-center mb-4"
-                    style={{
-                      width: 64,
-                      height: 64,
-                      borderRadius: 999,
-                      background: 'var(--gradient-primary)',
-                    }}
-                  >
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5">
-                      <path d="M5 12l5 5L20 7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <h3 style={{ fontSize: '1.6rem', fontWeight: 500, letterSpacing: '-0.02em' }}>Thank you.</h3>
-                  <p className="mt-3 text-muted-strong" style={{ fontSize: '1rem', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto' }}>
-                    We&apos;ve received your message and will get back to you within 24 hours.
-                    In the meantime, explore our <a href="/solutions" className="gradient-text" style={{ fontWeight: 600 }}>platform modules</a>.
-                  </p>
-                </div>
-              ) : (
-                <div className="glass-strong p-4 p-md-5">
-                  <h2 style={{ fontSize: '1.75rem', fontWeight: 500, letterSpacing: '-0.02em' }}>Request a Demo</h2>
-                  <p className="mt-2 text-muted-strong" style={{ fontSize: '0.95rem' }}>
-                    Fill in the form and our team will reach out to schedule a personalized walkthrough.
-                  </p>
+              <div className="glass-strong p-4 p-md-5">
+                <h2 style={{ fontSize: '1.75rem', fontWeight: 700, letterSpacing: '-0.02em' }}>Request a Demo</h2>
+                <p className="mt-2 text-muted-strong" style={{ fontSize: '0.95rem' }}>
+                  Fill in the form and our team will reach out to schedule a personalized walkthrough.
+                </p>
 
-                  <form onSubmit={onSubmit} className="mt-4">
-                    <div className="row g-3">
-                      <div className="col-12 col-sm-6">
-                        <label className="tf-label" htmlFor="name">Full Name *</label>
-                        <input
-                          id="name"
-                          type="text"
-                          required
-                          className="tf-input"
-                          placeholder="John Doe"
-                          value={form.name}
-                          onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        />
-                      </div>
-                      <div className="col-12 col-sm-6">
-                        <label className="tf-label" htmlFor="email">Email *</label>
-                        <input
-                          id="email"
-                          type="email"
-                          required
-                          className="tf-input"
-                          placeholder="john@fund.com"
-                          value={form.email}
-                          onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        />
-                      </div>
-                      <div className="col-12 col-sm-6">
-                        <label className="tf-label" htmlFor="org">Organization</label>
-                        <input
-                          id="org"
-                          type="text"
-                          className="tf-input"
-                          placeholder="Acme Capital"
-                          value={form.organization}
-                          onChange={(e) => setForm({ ...form, organization: e.target.value })}
-                        />
-                      </div>
-                      <div className="col-12 col-sm-6">
-                        <label className="tf-label" htmlFor="ftype">Fund Type</label>
-                        <select
-                          id="ftype"
-                          className="tf-select"
-                          value={form.fundType}
-                          onChange={(e) => setForm({ ...form, fundType: e.target.value })}
-                        >
-                          <option value="">Select type…</option>
-                          <option value="cat1">AIF Category I</option>
-                          <option value="cat2">AIF Category II</option>
-                          <option value="cat3">AIF Category III</option>
-                          <option value="gift">GIFT City IFSC</option>
-                          <option value="other">Other / Exploring</option>
-                        </select>
-                      </div>
-                      <div className="col-12">
-                        <label className="tf-label" htmlFor="msg">Message</label>
-                        <textarea
-                          id="msg"
-                          rows={4}
-                          className="tf-textarea"
-                          placeholder="Tell us about your fund and what you're looking for…"
-                          value={form.message}
-                          onChange={(e) => setForm({ ...form, message: e.target.value })}
-                          style={{ resize: 'none' }}
-                        />
-                      </div>
+                {/* Native POST to FormSubmit.co — no JS interception needed */}
+                <form
+                  action="https://formsubmit.co/raj@trackfundai.com"
+                  method="POST"
+                  className="mt-4"
+                >
+                  {/* FormSubmit configuration hidden fields */}
+                  <input type="hidden" name="_subject" value="New Demo Request — TrackFundAI" />
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_template" value="table" />
+                  <input type="hidden" name="_next" value="https://trackfundai.com/contact?submitted=true" />
+
+                  <div className="row g-3">
+                    <div className="col-12 col-sm-6">
+                      <label className="tf-label" htmlFor="name">Full Name *</label>
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        required
+                        className="tf-input"
+                        placeholder="John Doe"
+                      />
                     </div>
+                    <div className="col-12 col-sm-6">
+                      <label className="tf-label" htmlFor="email">Email *</label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        required
+                        className="tf-input"
+                        placeholder="john@fund.com"
+                      />
+                    </div>
+                    <div className="col-12 col-sm-6">
+                      <label className="tf-label" htmlFor="org">Organization</label>
+                      <input
+                        id="org"
+                        name="organization"
+                        type="text"
+                        className="tf-input"
+                        placeholder="Acme Capital"
+                      />
+                    </div>
+                    <div className="col-12 col-sm-6">
+                      <label className="tf-label" htmlFor="ftype">Fund Type</label>
+                      <select
+                        id="ftype"
+                        name="fund_type"
+                        className="tf-select"
+                      >
+                        <option value="">Select type…</option>
+                        <option value="AIF Category I">AIF Category I</option>
+                        <option value="AIF Category II">AIF Category II</option>
+                        <option value="AIF Category III">AIF Category III</option>
+                        <option value="GIFT City IFSC">GIFT City IFSC</option>
+                        <option value="Other / Exploring">Other / Exploring</option>
+                      </select>
+                    </div>
+                    <div className="col-12">
+                      <label className="tf-label" htmlFor="msg">Message</label>
+                      <textarea
+                        id="msg"
+                        name="message"
+                        rows={4}
+                        className="tf-textarea"
+                        placeholder="Tell us about your fund and what you're looking for…"
+                        style={{ resize: 'none' }}
+                      />
+                    </div>
+                  </div>
 
-                    <button type="submit" className="btn-primary-fancy w-100 justify-content-center mt-4">
-                      Send Message
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </button>
-                  </form>
-                </div>
-              )}
+                  <button type="submit" className="btn-primary-fancy w-100 justify-content-center mt-4">
+                    Send Message
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </form>
+              </div>
             </div>
 
             {/* Info */}

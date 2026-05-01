@@ -101,8 +101,9 @@ export default function EnergyField({ theme }: Props) {
       return c * c * (3 - 2 * c);
     };
 
-    // Fade in at 0.50, full by 0.58, fade out at 0.72, gone by 0.82
-    const targetOp = ss(0.50, 0.58, sp) * (1 - ss(0.72, 0.82, sp));
+    // Fade in earlier — as soon as the Timeline heading enters view (~scroll 0.43)
+    // Full opacity by 0.52, fade out at 0.70, gone by 0.80
+    const targetOp = ss(0.43, 0.52, sp) * (1 - ss(0.70, 0.80, sp));
     opacityRef.current += (targetOp - opacityRef.current) * 0.055;
     const op = opacityRef.current;
 

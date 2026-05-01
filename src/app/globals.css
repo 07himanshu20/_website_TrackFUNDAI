@@ -658,10 +658,10 @@ p { margin: 0; }
 
 /* ─── Article card ───────────────────────────────────────── */
 .article-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(18px) saturate(1.5);
-  -webkit-backdrop-filter: blur(18px) saturate(1.5);
-  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(24px) saturate(1.7);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  border: 1px solid var(--glass-border-strong);
   border-radius: var(--border-radius-lg);
   padding: 1.75rem 1.6rem;
   height: 100%;
@@ -671,17 +671,49 @@ p { margin: 0; }
   overflow: hidden;
 }
 
-.article-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--glass-border-strong);
-  background: var(--glass-bg-strong);
+[data-theme="light"] .article-card {
+  background: rgba(255, 255, 255, 0.62);
 }
 
+.article-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-secondary);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px -8px rgba(0,0,0,0.45);
+}
+
+[data-theme="light"] .article-card:hover {
+  background: rgba(255, 255, 255, 0.80);
+}
+
+/* Bold all text inside article cards */
 .article-card h3 {
+  font-weight: 700 !important;
+  color: var(--fg-strong);
   transition: color 0.3s ease;
 }
 
+.article-card p {
+  font-weight: 600 !important;
+  color: var(--fg) !important;
+}
+
 .article-card:hover h3 { color: var(--accent-strong); }
+
+/* ─── Insights newsletter card — raised opacity ─────────── */
+.insights-newsletter-card {
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(40px) saturate(1.9) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(1.9) !important;
+  border-color: var(--glass-border-strong) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 20px 60px -16px rgba(0, 0, 0, 0.55) !important;
+}
+
+[data-theme="light"] .insights-newsletter-card {
+  background: rgba(255, 255, 255, 0.70) !important;
+}
 
 /* ─── Footer (legacy, kept for safety) ──────────────────── */
 .tf-footer {
@@ -1333,7 +1365,8 @@ p { margin: 0; }
 
 /* Typing-reveal description */
 .typing-text {
-  color: var(--muted-strong);
+  color: #ffffff;
+  font-weight: 600;
   font-size: 0.96rem;
   line-height: 1.6;
   max-height: 0;
@@ -1347,6 +1380,11 @@ p { margin: 0; }
 .timeline-card.is-visible .typing-text {
   max-height: 200px;
   opacity: 1;
+}
+
+[data-theme="light"] .typing-text {
+  color: var(--fg-strong);
+  font-weight: 600;
 }
 
 /* Cinematic section lights */
@@ -1385,20 +1423,143 @@ p { margin: 0; }
   .timeline-node         { left: 12px; }
 }
 
+/* ─── Principles section (About page) — dims the globe behind ── */
+/*
+ * The fixed 3D canvas sits at z-index 0.
+ * The .principles-veil is positioned absolute inside the section at z-index 1,
+ * creating a semi-transparent screen between the globe and the foreground content.
+ * Content sits at z-index 2 above the veil.
+ *
+ * The veil uses a vertical gradient:
+ *  - Transparent at top/bottom edges (globe bleeds through for a cinematic fade)
+ *  - 70-80% opaque in the middle (enough contrast for bold white text)
+ *
+ * This makes the globe appear "dimmed" rather than fully blocked.
+ */
+.section-principles {
+  position: relative;
+  z-index: 3;
+}
+
+.principles-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--bg);
+  /* Cinematic vertical fade:
+     transparent at very top → dark in middle → transparent at very bottom */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.15) 6%,
+    rgba(0,0,0,0.48) 14%,
+    rgba(0,0,0,0.72) 22%,
+    rgba(0,0,0,0.82) 32%,
+    rgba(0,0,0,0.82) 68%,
+    rgba(0,0,0,0.72) 78%,
+    rgba(0,0,0,0.48) 86%,
+    rgba(0,0,0,0.15) 94%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.15) 6%,
+    rgba(0,0,0,0.48) 14%,
+    rgba(0,0,0,0.72) 22%,
+    rgba(0,0,0,0.82) 32%,
+    rgba(0,0,0,0.82) 68%,
+    rgba(0,0,0,0.72) 78%,
+    rgba(0,0,0,0.48) 86%,
+    rgba(0,0,0,0.15) 94%,
+    transparent 100%
+  );
+}
+
+/* Light-theme veil is lighter to not kill contrast on white bg */
+[data-theme="light"] .principles-veil {
+  background: var(--bg);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.12) 6%,
+    rgba(0,0,0,0.40) 14%,
+    rgba(0,0,0,0.62) 22%,
+    rgba(0,0,0,0.72) 32%,
+    rgba(0,0,0,0.72) 68%,
+    rgba(0,0,0,0.62) 78%,
+    rgba(0,0,0,0.40) 86%,
+    rgba(0,0,0,0.12) 94%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.12) 6%,
+    rgba(0,0,0,0.40) 14%,
+    rgba(0,0,0,0.62) 22%,
+    rgba(0,0,0,0.72) 32%,
+    rgba(0,0,0,0.72) 68%,
+    rgba(0,0,0,0.62) 78%,
+    rgba(0,0,0,0.40) 86%,
+    rgba(0,0,0,0.12) 94%,
+    transparent 100%
+  );
+}
+
+/* Content inside .section-principles floats above the veil */
+.section-principles .container-x {
+  position: relative;
+  z-index: 2;
+}
+
+/* Principles cards — slightly elevated glass so they read clearly over dimmed globe */
+.principles-card {
+  background: var(--glass-bg-strong) !important;
+  border-color: var(--glass-border-strong) !important;
+  box-shadow: 0 8px 32px -8px rgba(0,0,0,0.45), 0 0 0 1px var(--glass-border-strong) !important;
+}
+
 /* ─── Platform section wrapper — Northern Lights background ── */
 .section-platform {
   position: relative;
-  padding: clamp(5rem, 10vw, 9rem) 0;
+  /* Extra top headroom matching the transparent mask zone */
+  padding: clamp(8rem, 18vh, 14rem) 0 clamp(5rem, 10vw, 9rem);
   overflow: hidden;
   z-index: 3;
 }
 
-/* Solid bg to completely block fixed canvas */
+/* Background layer — fades in from top so the 3D globe sinks into it */
 .platform-bg {
   position: absolute;
   inset: 0;
   background: var(--bg);
   z-index: 0;
+  /*
+   * Same "sinking" gradient: transparent at top → fully opaque.
+   * The CapitalGlobe dissolves behind this section as it scrolls into view.
+   */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.08) 8%,
+    rgba(0,0,0,0.30) 16%,
+    rgba(0,0,0,0.68) 24%,
+    rgba(0,0,0,0.92) 30%,
+    black 38%,
+    black 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.08) 8%,
+    rgba(0,0,0,0.30) 16%,
+    rgba(0,0,0,0.68) 24%,
+    rgba(0,0,0,0.92) 30%,
+    black 38%,
+    black 100%
+  );
 }
 
 /* Dedicated northern-lights Canvas — fills entire section */
@@ -1417,21 +1578,49 @@ p { margin: 0; }
 /* ─── Foundations section wrapper — blocks the fixed 3D canvas ── */
 .section-foundations {
   position: relative;
-  padding: clamp(5rem, 10vw, 9rem) 0;
+  /* Extra top padding: the transparent mask zone at top needs to be clear of content.
+     We use ~18vh of headroom so the globe finishes sinking before text becomes visible. */
+  padding: clamp(8rem, 18vh, 14rem) 0 clamp(5rem, 10vw, 9rem);
   overflow: hidden;
   /* sits above canvas (z=0) but below nav (z=100) */
   z-index: 3;
 }
 
-/* Solid background layer — completely hides the fixed canvas */
+/* Background layer — fades in from top so the 3D globe "sinks" into it */
 .foundations-bg {
   position: absolute;
   inset: 0;
   background: var(--bg);
   z-index: 0;
-  /* Fade bottom edge into the next section smoothly */
-  mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
+  /*
+   * Top: transparent → opaque over first ~22vh — the globe dissolves INTO this section.
+   * Bottom: opaque → transparent — blends into the platform section below.
+   * This creates the "ball sinking in water" illusion.
+   */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.08) 8%,
+    rgba(0,0,0,0.30) 16%,
+    rgba(0,0,0,0.65) 24%,
+    rgba(0,0,0,0.90) 30%,
+    black 38%,
+    black 76%,
+    rgba(0,0,0,0.70) 86%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.08) 8%,
+    rgba(0,0,0,0.30) 16%,
+    rgba(0,0,0,0.65) 24%,
+    rgba(0,0,0,0.90) 30%,
+    black 38%,
+    black 76%,
+    rgba(0,0,0,0.70) 86%,
+    transparent 100%
+  );
 }
 
 /* ─── Sunrise cinematic light — Foundations section only ── */
@@ -2013,6 +2202,203 @@ p { margin: 0; }
   }
   .sol-module-card-wrap { order: -1; }
   .sol-module-card { min-height: 280px; }
+}
+
+/* ─── Contact page — nebula spacer ──────────────────────────
+ *
+ * A fully-transparent zone between the hero and the form section.
+ * The fixed 3D canvas (z-index 0) shows completely through it —
+ * ContactNebula fades in as the user scrolls into this space.
+ *
+ * Vignette divs at top/bottom blend the seam with the adjacent sections
+ * using the page background colour, so the transition feels seamless.
+ * ──────────────────────────────────────────────────────────── */
+.contact-nebula-spacer {
+  position: relative;
+  height: clamp(55vh, 70vh, 82vh);
+  z-index: 3;
+  /* no background — canvas shows through */
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Label floats in center of the spacer */
+.contact-nebula-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.contact-nebula-label {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1.2s cubic-bezier(0.16,1,0.3,1), transform 1.2s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+}
+
+.contact-nebula-label.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Contact form section — macOS Tahoe glassmorphism ─────────────────
+ *
+ * The section itself is transparent so the nebula canvas bleeds through.
+ * A frosted-glass pseudo-element covers the entire section as the base,
+ * giving the whole area a subtle tinted blur without fully blocking the 3D.
+ *
+ * Cards (.glass-strong) inside get the Tahoe-style:
+ *   • Very low fill (7-10%) so the nebula colour reads through
+ *   • Heavy blur (44px) + high saturation (2.0) — true frosted ice
+ *   • Thin luminous 1px border with a subtle top-edge highlight
+ *   • Soft inset glow + drop shadow for depth
+ * ────────────────────────────────────────────────────────────────────── */
+.contact-form-section {
+  position: relative;
+  z-index: 4;
+  /* transparent — nebula shows through the whole section */
+  background: transparent;
+}
+
+/* No base overlay — nebula shows through completely. Cards handle their own glass. */
+
+/* Ensure content sits above the frosted base */
+.contact-form-section .container-x {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Tahoe glass cards inside the contact form section ── */
+.contact-form-section .glass-strong {
+  /* Raised opacity — nebula tints through but content is legible */
+  background: rgba(12, 8, 28, 0.62) !important;
+  backdrop-filter: blur(48px) saturate(2.0) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(48px) saturate(2.0) brightness(1.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: var(--border-radius-lg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+    0 32px 80px -20px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.07) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Bold all text inside the demo card */
+.contact-form-section .glass-strong h2,
+.contact-form-section .glass-strong h3,
+.contact-form-section .glass-strong h4,
+.contact-form-section .glass-strong p,
+.contact-form-section .glass-strong label,
+.contact-form-section .glass-strong .tf-label {
+  font-weight: 600 !important;
+  color: var(--fg-strong) !important;
+}
+
+/* Slightly lighter muted text still needs contrast */
+.contact-form-section .glass-strong .text-muted-strong {
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-weight: 500 !important;
+}
+
+/* Prismatic sheen — rainbow diffraction across the top edge */
+.contact-form-section .glass-strong::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(228, 76, 58, 0.55) 20%,
+    rgba(194, 65, 147, 0.60) 40%,
+    rgba(107, 75, 161, 0.55) 60%,
+    rgba(194, 65, 147, 0.45) 80%,
+    transparent 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Contact info pills inside the right column — also go glassy */
+.contact-form-section .d-flex.align-items-center[style] {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(32px) saturate(1.8) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(1.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+[data-theme="light"] .contact-form-section .glass-strong {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(48px) saturate(2.2) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(48px) saturate(2.2) brightness(1.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.98),
+    inset 0 -1px 0 rgba(26, 21, 48, 0.04),
+    0 20px 56px -14px rgba(26, 21, 48, 0.28) !important;
+}
+
+[data-theme="light"] .contact-form-section .glass-strong .text-muted-strong {
+  color: var(--muted-strong) !important;
+  font-weight: 500 !important;
+}
+
+[data-theme="light"] .contact-form-section .d-flex.align-items-center[style] {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(28px) saturate(2.0) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(2.0) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
+}
+
+/* Input fields — glassy with nebula tint showing through */
+.contact-form-section .tf-input,
+.contact-form-section .tf-textarea,
+.contact-form-section .tf-select {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  color: var(--fg-strong) !important;
+}
+
+.contact-form-section .tf-input::placeholder,
+.contact-form-section .tf-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.32) !important;
+}
+
+.contact-form-section .tf-input:focus,
+.contact-form-section .tf-textarea:focus,
+.contact-form-section .tf-select:focus {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border-color: rgba(194, 65, 147, 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(194, 65, 147, 0.14) !important;
+}
+
+[data-theme="light"] .contact-form-section .tf-input,
+[data-theme="light"] .contact-form-section .tf-textarea,
+[data-theme="light"] .contact-form-section .tf-select {
+  background: rgba(255, 255, 255, 0.62) !important;
+  border-color: rgba(26, 21, 48, 0.12) !important;
+  color: var(--fg-strong) !important;
+}
+
+[data-theme="light"] .contact-form-section .tf-input::placeholder,
+[data-theme="light"] .contact-form-section .tf-textarea::placeholder {
+  color: rgba(26, 21, 48, 0.35) !important;
 }
 
 /* ─── Reduced motion ─────────────────────────────────────── */

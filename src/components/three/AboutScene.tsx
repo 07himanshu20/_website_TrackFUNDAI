@@ -73,8 +73,8 @@ function CTAMeteors({ theme }: { theme: 'dark' | 'light' }) {
 /**
  * About page 3D scene.
  * Scroll bands:
- *   0.00–0.55  → CapitalGlobe (starts far right, rolls to center by 0.28)
- *   0.50–0.82  → EnergyField (timeline backdrop)
+ *   0.00–0.55  → CapitalGlobe (starts far right, rolls to center by 0.28; dimmed at ~0.35 via CSS veil)
+ *   0.43–0.80  → EnergyField (timeline backdrop — starts as globe fades, earlier than before)
  *   0.74–1.00  → Dense starfield (team section)
  *   0.88–1.00  → Meteor shower (CTA section only)
  */
