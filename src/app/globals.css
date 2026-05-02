@@ -293,6 +293,18 @@ p { margin: 0; }
 
 .scene-canvas canvas { pointer-events: none; }
 
+/*
+ * Mobile/tablet — reduce the 3D canvas opacity so the globe recedes
+ * behind the hero text without adding any colour tint.
+ * Pure opacity works equally in dark AND light theme.
+ * Desktop (≥992px) keeps full opacity — canvas unchanged.
+ */
+@media (max-width: 991px) {
+  .scene-canvas {
+    opacity: 0.35;
+  }
+}
+
 .page-shell {
   position: relative;
   z-index: 2;
